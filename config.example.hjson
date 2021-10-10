@@ -7,7 +7,6 @@
   http-watched-objects:
   [
     {
-      watcher: HTTP
       name: rosesapphire's website
       address: https://rosesapphire.pl
       method: GET
@@ -17,7 +16,6 @@
       {}
     }
     {
-      watcher: HTTP
       name: rosesapphire's storehouse
       address: https://storehouse.rosesapphire.pl
       method: GET
@@ -31,7 +29,6 @@
   ping-watched-objects:
   [
     {
-      watcher: PING
       name: rosesapphire's machine
       address: n1.rosesapphire.pl
       timeout: 5000

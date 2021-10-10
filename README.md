@@ -1,4 +1,7 @@
 # rose-uptimer
+![license badge](https://img.shields.io/github/license/RoseSapphire/rose-uptimer)
+![version badge](https://img.shields.io/badge/version-1.1.1-green)
+
 Simple and lightweight application which is checking status of your web services and send a notification if it is down.
 
 ## Example configuration
