@@ -2,11 +2,11 @@ package pl.rosesapphire.uptimer.watcher;
 
 import pl.rosesapphire.uptimer.domain.WatchedObject;
 
-public interface Watcher {
+public interface Watcher<T extends WatchedObject> {
 
     void configure();
 
-    void watch(WatchedObject subject);
+    void watch(T subject);
 
     void scheduleWatching();
 }

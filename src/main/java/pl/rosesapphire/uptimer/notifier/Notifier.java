@@ -7,7 +7,7 @@ public interface Notifier {
 
     void configure(UptimerConfig config);
 
-    void notifyError(WatchedObject subject, boolean status, int statusCode);
+    void notifyError(WatchedObject subject);
 
     void notifyUnreachable(WatchedObject subject);
 }

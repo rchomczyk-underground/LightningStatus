@@ -2,7 +2,7 @@ package pl.rosesapphire.uptimer.config.factory;
 
 import eu.okaeri.configs.ConfigManager;
 import eu.okaeri.configs.OkaeriConfig;
-import eu.okaeri.configs.json.simple.JsonSimpleConfigurer;
+import eu.okaeri.configs.hjson.HjsonConfigurer;
 import eu.okaeri.configs.serdes.ObjectSerializer;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public final class ConfigFactory {
 
     public <T extends OkaeriConfig> T produceConfig(@NonNull Class<T> type, @NonNull File file, @NonNull ObjectSerializer<?>... serializers) {
         return ConfigManager.create(type, initializer -> initializer
-                .withConfigurer(new JsonSimpleConfigurer(), registry -> Arrays.stream(serializers).forEach(registry::register))
+                .withConfigurer(new HjsonConfigurer(), registry -> Arrays.stream(serializers).forEach(registry::register))
                 .withBindFile(file)
                 .saveDefaults()
                 .load(true));
