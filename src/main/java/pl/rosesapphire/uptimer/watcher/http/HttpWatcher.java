@@ -48,7 +48,7 @@ public class HttpWatcher extends SimpleWatcher<HttpWatchedObject> {
     @Override
     public void scheduleWatching() {
         this.getExecutorService().scheduleAtFixedRate(() -> config.getHttpWatchedObjects()
-                .forEach(this::watch), config.getDelay(), config.getDelay(), TimeUnit.SECONDS);
+                .forEach(this::watch), config.getDelay(), config.getDelay(), TimeUnit.MINUTES);
     }
 
     public enum HttpMethod {
