@@ -8,10 +8,12 @@ import eu.okaeri.configs.annotation.Variable;
 import lombok.Getter;
 import lombok.Setter;
 import pl.rosesapphire.uptimer.domain.WatchedObject;
+import pl.rosesapphire.uptimer.watcher.WatcherType;
 import pl.rosesapphire.uptimer.watcher.http.HttpWatcher.HttpMethod;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -25,7 +27,14 @@ public class UptimerConfig extends OkaeriConfig {
     private String webhookUri = "You should put that value on your own.";
 
     private List<WatchedObject> watchedObjects = List.of(
-            new WatchedObject("rosesapphire's website", "https://rosesapphire.pl", HttpMethod.GET, 200, 299, Collections.emptyMap()),
-            new WatchedObject("rosesapphire's storehouse", "https://storehouse.rosesapphire.pl", HttpMethod.GET, 200, 299, Collections.emptyMap())
+            new WatchedObject(WatcherType.HTTP, "rosesapphire's website", "https://rosesapphire.pl", HttpMethod.GET, 200, 299, Collections.emptyMap()),
+            new WatchedObject(WatcherType.HTTP,"rosesapphire's storehouse", "https://storehouse.rosesapphire.pl", HttpMethod.GET, 200, 299, Collections.emptyMap()),
+            new WatchedObject(WatcherType.PING, "rosesapphire's machine", "n1.rosesapphire.pl", HttpMethod.NONE, -1, -1, Collections.emptyMap())
     );
+
+    public List<WatchedObject> getWatchedObjects(WatcherType type) {
+        return watchedObjects.stream()
+                .filter(watchedObject -> watchedObject.getWatcherType() == type)
+                .collect(Collectors.toUnmodifiableList());
+    }
 }

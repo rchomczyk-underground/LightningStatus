@@ -9,6 +9,7 @@ import pl.rosesapphire.uptimer.config.UptimerConfig;
 import pl.rosesapphire.uptimer.domain.WatchedObject;
 import pl.rosesapphire.uptimer.notifier.Notifier;
 import pl.rosesapphire.uptimer.watcher.Watcher;
+import pl.rosesapphire.uptimer.watcher.WatcherType;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -57,7 +58,7 @@ public class HttpWatcher implements Watcher {
     @Override
     public void scheduleWatching() {
         this.executorService.scheduleAtFixedRate(() -> {
-            List<WatchedObject> watchedObjects = config.getWatchedObjects();
+            List<WatchedObject> watchedObjects = config.getWatchedObjects(WatcherType.HTTP);
             for (WatchedObject watchedObject : watchedObjects) {
                 this.watch(watchedObject);
             }

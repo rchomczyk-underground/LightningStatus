@@ -7,8 +7,10 @@ import pl.rosesapphire.uptimer.notifier.Notifier;
 import pl.rosesapphire.uptimer.notifier.discord.DiscordNotifier;
 import pl.rosesapphire.uptimer.watcher.Watcher;
 import pl.rosesapphire.uptimer.watcher.http.HttpWatcher;
+import pl.rosesapphire.uptimer.watcher.http.PingWatcher;
 
 import java.io.File;
+import java.util.List;
 
 public class ApplicationContext {
 
@@ -23,7 +25,7 @@ public class ApplicationContext {
         Notifier notifier = new DiscordNotifier();
         notifier.configure(config);
 
-        Watcher watcher = new HttpWatcher(config, notifier);
-        watcher.configure();
+        List.of(new HttpWatcher(config, notifier), new PingWatcher(config, notifier))
+                .forEach(Watcher::configure);
     }
 }
