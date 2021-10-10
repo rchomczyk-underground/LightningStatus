@@ -7,9 +7,8 @@ Simple and lightweight application which is checking status of your web services
   "watched-objects": [
     {
       "name": "rosesapphire's website",
-      "address": "rosesapphire.pl",
+      "address": "https://rosesapphire.pl",
       "http-method": "GET",
-      "http-protocol": "HTTPS",
       "http-minimum-accepted-code": 200,
       "http-maximum-accepted-code": 299,
       "http-headers": {
@@ -18,9 +17,8 @@ Simple and lightweight application which is checking status of your web services
     },
     {
       "name": "rosesapphire's storehouse",
-      "address": "storehouse.rosesapphire.pl",
+      "address": "https://storehouse.rosesapphire.pl",
       "http-method": "GET",
-      "http-protocol": "HTTPS",
       "http-minimum-accepted-code": 200,
       "http-maximum-accepted-code": 299,
       "http-headers": {

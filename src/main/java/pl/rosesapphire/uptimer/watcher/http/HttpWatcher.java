@@ -4,8 +4,6 @@ import kong.unirest.HttpRequestWithBody;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import kong.unirest.UnirestException;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import pl.rosesapphire.uptimer.config.UptimerConfig;
 import pl.rosesapphire.uptimer.domain.WatchedObject;
@@ -35,7 +33,7 @@ public class HttpWatcher implements Watcher {
 
     @Override
     public void watch(WatchedObject subject) {
-        HttpRequestWithBody request = Unirest.request(subject.getHttpMethod().name(), subject.getHttpProtocol().getPrefix() + subject.getAddress()).charset(StandardCharsets.UTF_8);
+        HttpRequestWithBody request = Unirest.request(subject.getHttpMethod().name(), subject.getAddress()).charset(StandardCharsets.UTF_8);
         for (Entry<String, String> httpHeader : subject.getHttpHeaders().entrySet()) {
             request.header(httpHeader.getKey(), httpHeader.getValue());
         }
@@ -64,15 +62,6 @@ public class HttpWatcher implements Watcher {
                 this.watch(watchedObject);
             }
         }, config.getDelay(), config.getDelay(), TimeUnit.MINUTES);
-    }
-
-    @AllArgsConstructor
-    @Getter
-    public enum HttpProtocol {
-
-        HTTP("http://"), HTTPS("https://"), NONE("");
-
-        final String prefix;
     }
 
     public enum HttpMethod {
