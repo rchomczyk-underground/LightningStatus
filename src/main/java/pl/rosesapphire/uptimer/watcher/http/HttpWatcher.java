@@ -11,6 +11,7 @@ import pl.rosesapphire.uptimer.notifier.Notifier;
 import pl.rosesapphire.uptimer.watcher.SimpleWatcher;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
@@ -18,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class HttpWatcher extends SimpleWatcher<HttpWatchedObject> {
 
     private final UptimerConfig config;
-    private final Notifier notifier;
+    private final List<Notifier<?>> notifiers;
 
     @Override
     public void watch(HttpWatchedObject subject) {
@@ -32,7 +33,7 @@ public class HttpWatcher extends SimpleWatcher<HttpWatchedObject> {
         try {
             httpResponse = httpRequest.asEmpty();
         } catch (UnirestException exception) {
-            notifier.notifyUnreachable(subject);
+            notifiers.forEach(notifier -> notifier.notifyUnreachable(subject));
             return;
         }
 
@@ -42,7 +43,7 @@ public class HttpWatcher extends SimpleWatcher<HttpWatchedObject> {
             return;
         }
 
-        notifier.notifyError(subject);
+        notifiers.forEach(notifier -> notifier.notifyError(subject));
     }
 
     @Override

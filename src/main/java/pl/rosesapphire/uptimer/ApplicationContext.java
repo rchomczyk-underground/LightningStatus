@@ -2,6 +2,7 @@ package pl.rosesapphire.uptimer;
 
 import pl.rosesapphire.uptimer.config.UptimerConfig;
 import pl.rosesapphire.uptimer.config.factory.ConfigFactory;
+import pl.rosesapphire.uptimer.config.notifier.DiscordNotifierConfig;
 import pl.rosesapphire.uptimer.config.serializer.HttpWatchedObjectSerializer;
 import pl.rosesapphire.uptimer.config.serializer.PingWatchedObjectSerializer;
 import pl.rosesapphire.uptimer.notifier.Notifier;
@@ -11,6 +12,7 @@ import pl.rosesapphire.uptimer.watcher.http.HttpWatcher;
 import pl.rosesapphire.uptimer.watcher.ping.PingWatcher;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ApplicationContext {
@@ -24,9 +26,18 @@ public class ApplicationContext {
     }
 
     public void initialize() {
-        Notifier notifier = new DiscordNotifier();
-        notifier.configure(config);
+        List<Notifier<?>> notifiers = new ArrayList<>();
+        if (config.getDiscordNotifierConfig().isEnabled()) {
+            Notifier<DiscordNotifierConfig> notifier = new DiscordNotifier();
+            notifier.configure(config.getDiscordNotifierConfig());
 
-        List.of(new HttpWatcher(config, notifier), new PingWatcher(config, notifier)).forEach(Watcher::configure);
+            notifiers.add(notifier);
+        }
+
+        if (notifiers.isEmpty()) {
+            throw new RuntimeException("Notifiers list can not be empty.");
+        }
+
+        List.of(new HttpWatcher(config, notifiers), new PingWatcher(config, notifiers)).forEach(Watcher::configure);
     }
 }

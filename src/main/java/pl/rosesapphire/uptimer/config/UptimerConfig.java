@@ -4,6 +4,7 @@ import eu.okaeri.configs.OkaeriConfig;
 import eu.okaeri.configs.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
+import pl.rosesapphire.uptimer.config.notifier.DiscordNotifierConfig;
 import pl.rosesapphire.uptimer.domain.http.HttpWatchedObject;
 import pl.rosesapphire.uptimer.domain.ping.PingWatchedObject;
 import pl.rosesapphire.uptimer.watcher.http.HttpWatcher.HttpMethod;
@@ -16,10 +17,6 @@ import java.util.List;
 
 @Names(strategy = NameStrategy.HYPHEN_CASE, modifier = NameModifier.TO_LOWER_CASE)
 public class UptimerConfig extends OkaeriConfig {
-
-    @Variable("WEBHOOK_URI")
-    @Comment("This should be the webhook to your Discord's / Slack's channel.")
-    private String webhookUri = "You should put that value on your own.";
 
     @Comment("This should be delay of checking status of watchable objects. (in minutes)")
     private int delay = 15;
@@ -35,23 +32,6 @@ public class UptimerConfig extends OkaeriConfig {
             new PingWatchedObject("rosesapphire's machine", "n1.rosesapphire.pl", 5000)
     );
 
-    @Comment("This section should contains configuration of embed message sent by rose-uptimer. (Discord)")
-    private EmbedConfig embedConfig = new EmbedConfig();
-
-    @Getter
-    @Setter
-    public static class EmbedConfig extends OkaeriConfig {
-
-        @Comment("This is the username, which is displayed as author's name of message.")
-        private String username = "rose-uptimer";
-
-        @Comment("This is the avatar, which is displayed behind username.")
-        private String avatarUrl = "https://avatars.githubusercontent.com/u/91547210?s=400&u=435f882d397abccb67587583b975ece92fb2d2a9&v=4";
-
-        @Comment("This is the name displayed in the embed's footer.")
-        private String footerName = "made by shitzuu with ♡";
-
-        @Comment("This is the avatar displayed in the embed's footer.")
-        private String footerAvatarUrl = "https://cdn.discordapp.com/avatars/316953327936077827/a_500ebb80d3161a98aabdf4dda4931bfc.gif";
-    }
+    @Comment("This should contains settings for discord notifier.")
+    private DiscordNotifierConfig discordNotifierConfig = new DiscordNotifierConfig();
 }

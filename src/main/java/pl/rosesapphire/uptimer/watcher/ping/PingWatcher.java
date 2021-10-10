@@ -8,13 +8,14 @@ import pl.rosesapphire.uptimer.watcher.SimpleWatcher;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
 public class PingWatcher extends SimpleWatcher<PingWatchedObject> {
 
     private final UptimerConfig config;
-    private final Notifier notifier;
+    private final List<Notifier<?>> notifiers;
 
     @Override
     public void watch(PingWatchedObject subject) {
@@ -26,9 +27,9 @@ public class PingWatcher extends SimpleWatcher<PingWatchedObject> {
                 return;
             }
 
-            notifier.notifyError(subject);
+            notifiers.forEach(notifier -> notifier.notifyError(subject));
         } catch (IOException exception) {
-            notifier.notifyUnreachable(subject);
+            notifiers.forEach(notifier -> notifier.notifyUnreachable(subject));
         }
     }
 

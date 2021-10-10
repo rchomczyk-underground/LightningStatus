@@ -1,8 +1,6 @@
 {
-  # This should be the webhook to your Discord's / Slack's channel.
-  webhook-uri: <redacted>
   # This should be delay of checking status of watchable objects. (in minutes)
-  delay: 3
+  delay: 15
   # This should be the list of watchable objects which should be checked by HttpWatcher.
   http-watched-objects:
   [
@@ -34,16 +32,24 @@
       timeout: 5000
     }
   ]
-  # This section should contains configuration of embed message sent by rose-uptimer. (Discord)
-  embed-config:
+  # This should contains settings for discord notifier.
+  discord-notifier-config:
   {
-    # This is the username, which is displayed as author's name of message.
-    username: rose-uptimer
-    # This is the avatar, which is displayed behind username.
-    avatar-url: https://avatars.githubusercontent.com/u/91547210?s=400&u=435f882d397abccb67587583b975ece92fb2d2a9&v=4
-    # This is the name displayed in the embed's footer.
-    footer-name: made by shitzuu with ♡
-    # This is the avatar displayed in the embed's footer.
-    footer-avatar-url: https://cdn.discordapp.com/avatars/316953327936077827/a_500ebb80d3161a98aabdf4dda4931bfc.gif
+    # This should be the webhook to your Discord's / Slack's channel.
+    webhookUri: <redacted>
+    # Should that notifier be enabled?
+    enabled: true
+    # This section should contains configuration of embed message sent by rose-uptimer. (Discord)
+    embedConfig:
+    {
+      # This is the username, which is displayed as author's name of message.
+      username: rose-uptimer
+      # This is the avatar, which is displayed behind username.
+      avatarUrl: https://avatars.githubusercontent.com/u/91547210?s=400&u=435f882d397abccb67587583b975ece92fb2d2a9&v=4
+      # This is the name displayed in the embed's footer.
+      footerName: made by shitzuu with ♡
+      # This is the avatar displayed in the embed's footer.
+      footerAvatarUrl: https://cdn.discordapp.com/avatars/316953327936077827/a_500ebb80d3161a98aabdf4dda4931bfc.gif
+    }
   }
 }
