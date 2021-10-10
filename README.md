@@ -37,4 +37,4 @@ Simple and lightweight application which is checking status of your web services
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## Licensing
-[rose-uptimer](https://github.com/RoseSapphire/rose-uptimer) plugin is released under [Apache License 2.0](./LICENSE) conditions.
+[rose-uptimer](https://github.com/RoseSapphire/rose-uptimer) plugin is released under [MIT license](./LICENSE) conditions.
