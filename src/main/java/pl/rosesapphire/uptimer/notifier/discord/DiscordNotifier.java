@@ -7,45 +7,47 @@ import club.minnced.discord.webhook.send.WebhookEmbed.EmbedFooter;
 import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
 import club.minnced.discord.webhook.send.WebhookMessage;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
-import pl.rosesapphire.uptimer.config.UptimerConfig;
+import pl.rosesapphire.uptimer.config.notifier.DiscordNotifierConfig;
+import pl.rosesapphire.uptimer.config.notifier.DiscordNotifierConfig.EmbedConfig;
 import pl.rosesapphire.uptimer.domain.WatchedObject;
 import pl.rosesapphire.uptimer.notifier.Notifier;
 
 import java.time.Instant;
 import java.util.concurrent.Executors;
 
-public class DiscordNotifier implements Notifier {
+public class DiscordNotifier implements Notifier<DiscordNotifierConfig> {
 
-    private UptimerConfig config;
-    private WebhookClient webhookClient;
+    private DiscordNotifierConfig config;
+    private WebhookClient client;
 
     @Override
-    public void configure(UptimerConfig config) {
+    public void configure(DiscordNotifierConfig config) {
         this.config = config;
-        WebhookClientBuilder webhookClientBuilder = new WebhookClientBuilder(config.getWebhookUri());
+        WebhookClientBuilder webhookClientBuilder = new WebhookClientBuilder(this.config.getWebhookUri());
         webhookClientBuilder.setExecutorService(Executors.newSingleThreadScheduledExecutor());
-        this.webhookClient = webhookClientBuilder.build();
+        this.client = webhookClientBuilder.build();
     }
 
     @Override
     public void notifyError(WatchedObject subject) {
-        this.webhookClient.send(this.buildMessage(subject, "**Urgent!**\nThere was an unexpected answer from watched service.\n**Perhaps that service is down at that moment or is maintained at that moment**."));
+        this.client.send(this.buildMessage(subject, "**Urgent!**\nThere was an unexpected answer from watched service.\n**Perhaps that service is down at that moment or is maintained at that moment**."));
     }
 
     @Override
     public void notifyUnreachable(WatchedObject subject) {
-        this.webhookClient.send(this.buildMessage(subject, "**Urgent!**\nService isn't reachable at that moment, you should instantly take care of that."));
+        this.client.send(this.buildMessage(subject, "**Urgent!**\nService isn't reachable at that moment, you should instantly take care of that."));
     }
 
     private WebhookMessage buildMessage(WatchedObject subject, String description) {
+        EmbedConfig embedConfig = config.getEmbedConfig();
         return new WebhookMessageBuilder()
-                .setUsername(config.getEmbedConfig().getUsername())
-                .setAvatarUrl(config.getEmbedConfig().getAvatarUrl())
+                .setUsername(embedConfig.getUsername())
+                .setAvatarUrl(embedConfig.getAvatarUrl())
                 .addEmbeds(new WebhookEmbedBuilder()
                         .setColor(0xFF0000)
                         .setTitle(new EmbedTitle(subject.getName(), null))
                         .setDescription(description)
-                        .setFooter(new EmbedFooter(config.getEmbedConfig().getFooterName(), config.getEmbedConfig().getFooterAvatarUrl()))
+                        .setFooter(new EmbedFooter(embedConfig.getFooterName(), embedConfig.getFooterAvatarUrl()))
                         .setTimestamp(Instant.now())
                         .build())
                 .build();
