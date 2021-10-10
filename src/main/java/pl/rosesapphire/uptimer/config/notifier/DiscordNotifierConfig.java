@@ -1,13 +1,14 @@
 package pl.rosesapphire.uptimer.config.notifier;
 
 import eu.okaeri.configs.OkaeriConfig;
-import eu.okaeri.configs.annotation.Comment;
-import eu.okaeri.configs.annotation.Variable;
+import eu.okaeri.configs.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+
+@Names(strategy = NameStrategy.HYPHEN_CASE, modifier = NameModifier.TO_LOWER_CASE)
 public class DiscordNotifierConfig extends OkaeriConfig {
 
     @Variable("WEBHOOK_URI")

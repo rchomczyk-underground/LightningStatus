@@ -36,20 +36,20 @@
   discord-notifier-config:
   {
     # This should be the webhook to your Discord's / Slack's channel.
-    webhookUri: <redacted>
+    webhook-uri: <redacted>
     # Should that notifier be enabled?
     enabled: true
     # This section should contains configuration of embed message sent by rose-uptimer. (Discord)
-    embedConfig:
+    embed-config:
     {
       # This is the username, which is displayed as author's name of message.
       username: rose-uptimer
       # This is the avatar, which is displayed behind username.
-      avatarUrl: https://avatars.githubusercontent.com/u/91547210?s=400&u=435f882d397abccb67587583b975ece92fb2d2a9&v=4
+      avatar-url: https://avatars.githubusercontent.com/u/91547210?s=400&u=435f882d397abccb67587583b975ece92fb2d2a9&v=4
       # This is the name displayed in the embed's footer.
-      footerName: made by shitzuu with ♡
+      footer-name: made by shitzuu with ♡
       # This is the avatar displayed in the embed's footer.
-      footerAvatarUrl: https://cdn.discordapp.com/avatars/316953327936077827/a_500ebb80d3161a98aabdf4dda4931bfc.gif
+      footer-avatar-url: https://cdn.discordapp.com/avatars/316953327936077827/a_500ebb80d3161a98aabdf4dda4931bfc.gif
     }
   }
 }
