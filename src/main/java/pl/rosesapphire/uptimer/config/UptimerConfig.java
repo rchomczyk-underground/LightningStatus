@@ -4,7 +4,8 @@ import eu.okaeri.configs.OkaeriConfig;
 import eu.okaeri.configs.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
-import pl.rosesapphire.uptimer.config.notifier.DiscordNotifierConfig;
+import pl.rosesapphire.uptimer.config.notifier.discord.DiscordNotifierConfig;
+import pl.rosesapphire.uptimer.config.notifier.slack.SlackNotifierConfig;
 import pl.rosesapphire.uptimer.domain.http.HttpWatchedObject;
 import pl.rosesapphire.uptimer.domain.ping.PingWatchedObject;
 import pl.rosesapphire.uptimer.watcher.http.HttpWatcher.HttpMethod;
@@ -32,6 +33,10 @@ public class UptimerConfig extends OkaeriConfig {
             new PingWatchedObject("rosesapphire's machine", "n1.rosesapphire.pl", 5000)
     );
 
-    @Comment("This should contains settings for discord notifier.")
+
+    @Comment("This section should contain configuration for discord notifier.")
     private DiscordNotifierConfig discordNotifierConfig = new DiscordNotifierConfig();
+
+    @Comment("This section should contain configuration for slack notifier.")
+    private SlackNotifierConfig slackNotifierConfig = new SlackNotifierConfig();
 }

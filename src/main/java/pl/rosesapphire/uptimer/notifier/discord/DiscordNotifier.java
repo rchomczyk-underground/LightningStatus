@@ -7,8 +7,8 @@ import club.minnced.discord.webhook.send.WebhookEmbed.EmbedFooter;
 import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
 import club.minnced.discord.webhook.send.WebhookMessage;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
-import pl.rosesapphire.uptimer.config.notifier.DiscordNotifierConfig;
-import pl.rosesapphire.uptimer.config.notifier.DiscordNotifierConfig.EmbedConfig;
+import pl.rosesapphire.uptimer.config.notifier.discord.DiscordNotifierConfig;
+import pl.rosesapphire.uptimer.config.notifier.discord.DiscordNotifierConfig.EmbedConfig;
 import pl.rosesapphire.uptimer.domain.WatchedObject;
 import pl.rosesapphire.uptimer.notifier.Notifier;
 
@@ -38,7 +38,7 @@ public class DiscordNotifier implements Notifier<DiscordNotifierConfig> {
         this.client.send(this.buildMessage(subject, "**Urgent!**\nService isn't reachable at that moment, you should instantly take care of that."));
     }
 
-    private WebhookMessage buildMessage(WatchedObject subject, String description) {
+    private WebhookMessage buildMessage(WatchedObject subject, String message) {
         EmbedConfig embedConfig = config.getEmbedConfig();
         return new WebhookMessageBuilder()
                 .setUsername(embedConfig.getUsername())
@@ -46,7 +46,7 @@ public class DiscordNotifier implements Notifier<DiscordNotifierConfig> {
                 .addEmbeds(new WebhookEmbedBuilder()
                         .setColor(0xFF0000)
                         .setTitle(new EmbedTitle(subject.getName(), null))
-                        .setDescription(description)
+                        .setDescription(message)
                         .setFooter(new EmbedFooter(embedConfig.getFooterName(), embedConfig.getFooterAvatarUrl()))
                         .setTimestamp(Instant.now())
                         .build())
