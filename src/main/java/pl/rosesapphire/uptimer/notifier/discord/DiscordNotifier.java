@@ -1,20 +1,27 @@
 package pl.rosesapphire.uptimer.notifier.discord;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import kong.unirest.Unirest;
+import eu.okaeri.hjson.JsonArray;
+import eu.okaeri.hjson.JsonObject;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import pl.rosesapphire.uptimer.config.notifier.discord.DiscordNotifierConfig;
 import pl.rosesapphire.uptimer.domain.WatchedObject;
 import pl.rosesapphire.uptimer.notifier.Notifier;
 
-import java.nio.charset.StandardCharsets;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpRequest.BodyPublishers;
+import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 
+@RequiredArgsConstructor
 public class DiscordNotifier implements Notifier<DiscordNotifierConfig, WatchedObject> {
 
+    private final HttpClient httpClient;
     private DiscordNotifierConfig config;
 
     @Override
@@ -32,44 +39,34 @@ public class DiscordNotifier implements Notifier<DiscordNotifierConfig, WatchedO
         this.sendMessage(subject, "**Urgent!**\nService isn't reachable at that moment, you should instantly take care of that.");
     }
 
+    @SneakyThrows
     @Override
     public void sendMessage(WatchedObject subject, String message) {
-        JsonObject webhookObject = new JsonObject();
-        webhookObject.addProperty("username", config.getEmbedConfig().getUsername());
-        webhookObject.addProperty("avatar_url", config.getEmbedConfig().getAvatarUrl());
-
-        JsonArray embedsArray = new JsonArray();
-        embedsArray.add(this.buildEmbedMessage(subject.getName(), message,
-                config.getEmbedConfig().getColor(),
-                config.getEmbedConfig().getFooterName(),
-                config.getEmbedConfig().getFooterAvatarUrl()));
-
-        webhookObject.add("embeds", embedsArray);
-
-        Unirest.post(config.getWebhookUri())
-                .charset(StandardCharsets.UTF_8)
+        HttpRequest httpRequest = HttpRequest.newBuilder()
+                .uri(URI.create(config.getWebhookUri()))
+                .POST(BodyPublishers.ofString(new JsonObject()
+                                .add("username", config.getEmbedConfig().getUsername())
+                                .add("avatar_url", config.getEmbedConfig().getAvatarUrl())
+                                .add("embeds", new JsonArray()
+                                        .add(this.buildEmbedMessage(subject.getName(), message,
+                                                config.getEmbedConfig().getColor(),
+                                                config.getEmbedConfig().getFooterName(),
+                                                config.getEmbedConfig().getFooterAvatarUrl())))
+                        .toString()))
                 .header("Content-Type", "application/json")
-                .body(webhookObject.toString())
-                .asEmpty();
+                .build();
+        httpClient.send(httpRequest, BodyHandlers.ofString());
     }
 
-    private JsonObject buildEmbedMessage(@NonNull String title,
-                                         @NonNull String description,
-                                         int color,
-                                         @NonNull String footerName,
-                                         @NonNull String footerAvatarUrl) {
-        JsonObject embedObject = new JsonObject();
-        embedObject.addProperty("title", title);
-        embedObject.addProperty("type", "rich");
-        embedObject.addProperty("description", description);
-        embedObject.addProperty("timestamp", OffsetDateTime.ofInstant(Instant.now(), ZoneId.of("UTC")).toString());
-        embedObject.addProperty("color", color);
-
-        JsonObject footerObject = new JsonObject();
-        footerObject.addProperty("text", footerName);
-        footerObject.addProperty("icon_url", footerAvatarUrl);
-
-        embedObject.add("footer", footerObject);
-        return embedObject;
+    private JsonObject buildEmbedMessage(@NonNull String title, @NonNull String description, int color, @NonNull String footerName, @NonNull String footerAvatarUrl) {
+        return new JsonObject()
+                .add("title", title)
+                .add("type", "rich")
+                .add("description", description)
+                .add("timestamp", OffsetDateTime.ofInstant(Instant.now(), ZoneId.of("UTC")).toString())
+                .add("color", color)
+                .add("footer", new JsonObject()
+                        .add("text", footerName)
+                        .add("icon_url", footerAvatarUrl));
     }
 }

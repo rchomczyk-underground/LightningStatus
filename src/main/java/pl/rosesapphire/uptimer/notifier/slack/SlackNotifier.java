@@ -1,15 +1,22 @@
 package pl.rosesapphire.uptimer.notifier.slack;
 
-import com.google.gson.JsonObject;
-import kong.unirest.Unirest;
+import eu.okaeri.hjson.JsonObject;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import pl.rosesapphire.uptimer.config.notifier.slack.SlackNotifierConfig;
 import pl.rosesapphire.uptimer.domain.WatchedObject;
 import pl.rosesapphire.uptimer.notifier.Notifier;
 
-import java.nio.charset.StandardCharsets;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpRequest.BodyPublishers;
+import java.net.http.HttpResponse.BodyHandlers;
 
+@RequiredArgsConstructor
 public class SlackNotifier implements Notifier<SlackNotifierConfig, WatchedObject> {
 
+    private final HttpClient httpClient;
     private SlackNotifierConfig config;
 
     @Override
@@ -27,15 +34,16 @@ public class SlackNotifier implements Notifier<SlackNotifierConfig, WatchedObjec
         this.sendMessage("Urgent!\nService (" + subject.getName() + ") isn't reachable at that moment, you should instantly take care of that.");
     }
 
+    @SneakyThrows
     @Override
     public void sendMessage(String message) {
-        JsonObject webhookObject = new JsonObject();
-        webhookObject.addProperty("text", message);
-
-        Unirest.post(config.getWebhookUri())
-                .charset(StandardCharsets.UTF_8)
+        HttpRequest httpRequest = HttpRequest.newBuilder()
+                .uri(URI.create(config.getWebhookUri()))
+                .POST(BodyPublishers.ofString(new JsonObject()
+                        .add("text", message)
+                        .toString()))
                 .header("Content-Type", "application/json")
-                .body(webhookObject.toString())
-                .asEmpty();
+                .build();
+        httpClient.send(httpRequest, BodyHandlers.ofString());
     }
 }
