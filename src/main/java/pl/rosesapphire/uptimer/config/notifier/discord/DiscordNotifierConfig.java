@@ -37,6 +37,9 @@ public class DiscordNotifierConfig extends NotifierConfig {
 
         @Comment("This is the avatar displayed in the embed's footer.")
         private String footerAvatarUrl = "https://cdn.discordapp.com/avatars/316953327936077827/a_500ebb80d3161a98aabdf4dda4931bfc.gif";
+
+        @Comment("This is the color of embed message.")
+        private int color = 0xFF0000;
     }
 
     @Override

@@ -6,6 +6,7 @@ import pl.rosesapphire.uptimer.config.notifier.discord.DiscordNotifierConfig;
 import pl.rosesapphire.uptimer.config.notifier.slack.SlackNotifierConfig;
 import pl.rosesapphire.uptimer.config.serializer.HttpWatchedObjectSerializer;
 import pl.rosesapphire.uptimer.config.serializer.PingWatchedObjectSerializer;
+import pl.rosesapphire.uptimer.domain.WatchedObject;
 import pl.rosesapphire.uptimer.notifier.Notifier;
 import pl.rosesapphire.uptimer.notifier.discord.DiscordNotifier;
 import pl.rosesapphire.uptimer.notifier.slack.SlackNotifier;
@@ -28,17 +29,17 @@ public class ApplicationContext {
     }
 
     public void initialize() {
-        List<Notifier<?>> notifiers = new ArrayList<>();
+        List<Notifier<?, WatchedObject>> notifiers = new ArrayList<>();
 
         if (config.getDiscordNotifierConfig().isEnabled()) {
-            Notifier<DiscordNotifierConfig> notifier = new DiscordNotifier();
+            Notifier<DiscordNotifierConfig, WatchedObject> notifier = new DiscordNotifier();
             notifier.configure(config.getDiscordNotifierConfig());
 
             notifiers.add(notifier);
         }
 
         if (config.getSlackNotifierConfig().isEnabled()) {
-            Notifier<SlackNotifierConfig> notifier = new SlackNotifier();
+            Notifier<SlackNotifierConfig, WatchedObject> notifier = new SlackNotifier();
             notifier.configure(config.getSlackNotifierConfig());
 
             notifiers.add(notifier);

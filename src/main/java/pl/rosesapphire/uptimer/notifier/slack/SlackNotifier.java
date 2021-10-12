@@ -8,7 +8,7 @@ import pl.rosesapphire.uptimer.notifier.Notifier;
 
 import java.nio.charset.StandardCharsets;
 
-public class SlackNotifier implements Notifier<SlackNotifierConfig> {
+public class SlackNotifier implements Notifier<SlackNotifierConfig, WatchedObject> {
 
     private SlackNotifierConfig config;
 
@@ -27,14 +27,15 @@ public class SlackNotifier implements Notifier<SlackNotifierConfig> {
         this.sendMessage("Urgent!\nService (" + subject.getName() + ") isn't reachable at that moment, you should instantly take care of that.");
     }
 
+    @Override
     public void sendMessage(String message) {
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("text", message);
+        JsonObject webhookObject = new JsonObject();
+        webhookObject.addProperty("text", message);
 
         Unirest.post(config.getWebhookUri())
                 .charset(StandardCharsets.UTF_8)
                 .header("Content-Type", "application/json")
-                .body(jsonObject.toString())
+                .body(webhookObject.toString())
                 .asEmpty();
     }
 }

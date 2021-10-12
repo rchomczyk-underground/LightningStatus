@@ -1,7 +1,10 @@
 package pl.rosesapphire.uptimer.config;
 
 import eu.okaeri.configs.OkaeriConfig;
-import eu.okaeri.configs.annotation.*;
+import eu.okaeri.configs.annotation.Comment;
+import eu.okaeri.configs.annotation.NameModifier;
+import eu.okaeri.configs.annotation.NameStrategy;
+import eu.okaeri.configs.annotation.Names;
 import lombok.Getter;
 import lombok.Setter;
 import pl.rosesapphire.uptimer.config.notifier.discord.DiscordNotifierConfig;

@@ -1,55 +1,75 @@
 package pl.rosesapphire.uptimer.notifier.discord;
 
-import club.minnced.discord.webhook.WebhookClient;
-import club.minnced.discord.webhook.WebhookClientBuilder;
-import club.minnced.discord.webhook.send.WebhookEmbed.EmbedTitle;
-import club.minnced.discord.webhook.send.WebhookEmbed.EmbedFooter;
-import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
-import club.minnced.discord.webhook.send.WebhookMessage;
-import club.minnced.discord.webhook.send.WebhookMessageBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import kong.unirest.Unirest;
+import lombok.NonNull;
 import pl.rosesapphire.uptimer.config.notifier.discord.DiscordNotifierConfig;
-import pl.rosesapphire.uptimer.config.notifier.discord.DiscordNotifierConfig.EmbedConfig;
 import pl.rosesapphire.uptimer.domain.WatchedObject;
 import pl.rosesapphire.uptimer.notifier.Notifier;
 
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
-import java.util.concurrent.Executors;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 
-public class DiscordNotifier implements Notifier<DiscordNotifierConfig> {
+public class DiscordNotifier implements Notifier<DiscordNotifierConfig, WatchedObject> {
 
     private DiscordNotifierConfig config;
-    private WebhookClient client;
 
     @Override
     public void configure(DiscordNotifierConfig config) {
         this.config = config;
-        WebhookClientBuilder webhookClientBuilder = new WebhookClientBuilder(this.config.getWebhookUri());
-        webhookClientBuilder.setExecutorService(Executors.newSingleThreadScheduledExecutor());
-        this.client = webhookClientBuilder.build();
     }
 
     @Override
     public void notifyError(WatchedObject subject) {
-        this.client.send(this.buildMessage(subject, "**Urgent!**\nThere was an unexpected answer from watched service.\n**Perhaps that service is down at that moment or is maintained at that moment**."));
+        this.sendMessage(subject, "**Urgent!**\nThere was an unexpected answer from watched service.\n\n**Perhaps that service is down at that moment or is maintained at that moment**.");
     }
 
     @Override
     public void notifyUnreachable(WatchedObject subject) {
-        this.client.send(this.buildMessage(subject, "**Urgent!**\nService isn't reachable at that moment, you should instantly take care of that."));
+        this.sendMessage(subject, "**Urgent!**\nService isn't reachable at that moment, you should instantly take care of that.");
     }
 
-    private WebhookMessage buildMessage(WatchedObject subject, String message) {
-        EmbedConfig embedConfig = config.getEmbedConfig();
-        return new WebhookMessageBuilder()
-                .setUsername(embedConfig.getUsername())
-                .setAvatarUrl(embedConfig.getAvatarUrl())
-                .addEmbeds(new WebhookEmbedBuilder()
-                        .setColor(0xFF0000)
-                        .setTitle(new EmbedTitle(subject.getName(), null))
-                        .setDescription(message)
-                        .setFooter(new EmbedFooter(embedConfig.getFooterName(), embedConfig.getFooterAvatarUrl()))
-                        .setTimestamp(Instant.now())
-                        .build())
-                .build();
+    @Override
+    public void sendMessage(WatchedObject subject, String message) {
+        JsonObject webhookObject = new JsonObject();
+        webhookObject.addProperty("username", config.getEmbedConfig().getUsername());
+        webhookObject.addProperty("avatar_url", config.getEmbedConfig().getAvatarUrl());
+
+        JsonArray embedsArray = new JsonArray();
+        embedsArray.add(this.buildEmbedMessage(subject.getName(), message,
+                config.getEmbedConfig().getColor(),
+                config.getEmbedConfig().getFooterName(),
+                config.getEmbedConfig().getFooterAvatarUrl()));
+
+        webhookObject.add("embeds", embedsArray);
+
+        Unirest.post(config.getWebhookUri())
+                .charset(StandardCharsets.UTF_8)
+                .header("Content-Type", "application/json")
+                .body(webhookObject.toString())
+                .asEmpty();
+    }
+
+    private JsonObject buildEmbedMessage(@NonNull String title,
+                                         @NonNull String description,
+                                         int color,
+                                         @NonNull String footerName,
+                                         @NonNull String footerAvatarUrl) {
+        JsonObject embedObject = new JsonObject();
+        embedObject.addProperty("title", title);
+        embedObject.addProperty("type", "rich");
+        embedObject.addProperty("description", description);
+        embedObject.addProperty("timestamp", OffsetDateTime.ofInstant(Instant.now(), ZoneId.of("UTC")).toString());
+        embedObject.addProperty("color", color);
+
+        JsonObject footerObject = new JsonObject();
+        footerObject.addProperty("text", footerName);
+        footerObject.addProperty("icon_url", footerAvatarUrl);
+
+        embedObject.add("footer", footerObject);
+        return embedObject;
     }
 }

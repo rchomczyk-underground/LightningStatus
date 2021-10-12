@@ -50,6 +50,8 @@
       footer-name: made by shitzuu with ♡
       # This is the avatar displayed in the embed's footer.
       footer-avatar-url: https://cdn.discordapp.com/avatars/316953327936077827/a_500ebb80d3161a98aabdf4dda4931bfc.gif
+      # This is the color of embed message.
+      color: 16711680
     }
   }
   # This section should contain configuration for slack notifier.

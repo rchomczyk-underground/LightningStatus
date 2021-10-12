@@ -2,6 +2,7 @@ package pl.rosesapphire.uptimer.watcher.ping;
 
 import lombok.RequiredArgsConstructor;
 import pl.rosesapphire.uptimer.config.UptimerConfig;
+import pl.rosesapphire.uptimer.domain.WatchedObject;
 import pl.rosesapphire.uptimer.domain.ping.PingWatchedObject;
 import pl.rosesapphire.uptimer.notifier.Notifier;
 import pl.rosesapphire.uptimer.watcher.SimpleWatcher;
@@ -15,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class PingWatcher extends SimpleWatcher<PingWatchedObject> {
 
     private final UptimerConfig config;
-    private final List<Notifier<?>> notifiers;
+    private final List<Notifier<?, WatchedObject>> notifiers;
 
     @Override
     public void watch(PingWatchedObject subject) {

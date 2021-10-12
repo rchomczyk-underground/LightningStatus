@@ -6,6 +6,7 @@ import kong.unirest.Unirest;
 import kong.unirest.UnirestException;
 import lombok.RequiredArgsConstructor;
 import pl.rosesapphire.uptimer.config.UptimerConfig;
+import pl.rosesapphire.uptimer.domain.WatchedObject;
 import pl.rosesapphire.uptimer.domain.http.HttpWatchedObject;
 import pl.rosesapphire.uptimer.notifier.Notifier;
 import pl.rosesapphire.uptimer.watcher.SimpleWatcher;
@@ -19,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class HttpWatcher extends SimpleWatcher<HttpWatchedObject> {
 
     private final UptimerConfig config;
-    private final List<Notifier<?>> notifiers;
+    private final List<Notifier<?, WatchedObject>> notifiers;
 
     @Override
     public void watch(HttpWatchedObject subject) {
@@ -37,8 +38,7 @@ public class HttpWatcher extends SimpleWatcher<HttpWatchedObject> {
             return;
         }
 
-        boolean isAccessible = httpResponse.getStatus() >= subject.getMinimumAcceptedCode()
-                && httpResponse.getStatus() <= subject.getMaximumAcceptedCode();
+        boolean isAccessible = httpResponse.getStatus() >= subject.getMinimumAcceptedCode() && httpResponse.getStatus() <= subject.getMaximumAcceptedCode();
         if (isAccessible) {
             return;
         }
