@@ -12,6 +12,9 @@ import pl.rosesapphire.uptimer.config.notifier.NotifierConfig;
 @Names(strategy = NameStrategy.HYPHEN_CASE, modifier = NameModifier.TO_LOWER_CASE)
 public class DiscordNotifierConfig extends NotifierConfig {
 
+    @Comment("Status of that notifier.")
+    private boolean enabled = true;
+
     @Variable("DISCORD_WEBHOOK_URI")
     @Comment("This should be the webhook uri.")
     private String webhookUri = "You should put that value on your own.";
@@ -34,5 +37,10 @@ public class DiscordNotifierConfig extends NotifierConfig {
 
         @Comment("This is the avatar displayed in the embed's footer.")
         private String footerAvatarUrl = "https://cdn.discordapp.com/avatars/316953327936077827/a_500ebb80d3161a98aabdf4dda4931bfc.gif";
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.enabled;
     }
 }

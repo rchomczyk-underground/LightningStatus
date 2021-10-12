@@ -35,6 +35,8 @@
   # This section should contain configuration for discord notifier.
   discord-notifier-config:
   {
+    # Status of that notifier.
+    enabled: true
     # This should be the webhook uri.
     webhook-uri: You should put that value on your own.
     # This section should contains configuration of embed message sent by rose-uptimer. (Discord)
@@ -53,6 +55,8 @@
   # This section should contain configuration for slack notifier.
   slack-notifier-config:
   {
+    # Status of that notifier.
+    enabled: true
     # This should be the webhook uri.
     webhook-uri: You should put that value on your own.
   }

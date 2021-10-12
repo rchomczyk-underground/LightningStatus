@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 
 @Names(strategy = NameStrategy.HYPHEN_CASE, modifier = NameModifier.TO_LOWER_CASE)
-public class NotifierConfig extends OkaeriConfig {
+public abstract class NotifierConfig extends OkaeriConfig {
 
-    private boolean enabled = true;
+    public abstract boolean isEnabled();
 }
