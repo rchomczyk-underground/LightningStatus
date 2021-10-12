@@ -32,13 +32,11 @@
       timeout: 5000
     }
   ]
-  # This should contains settings for discord notifier.
+  # This section should contain configuration for discord notifier.
   discord-notifier-config:
   {
-    # This should be the webhook to your Discord's / Slack's channel.
-    webhook-uri: <redacted>
-    # Should that notifier be enabled?
-    enabled: true
+    # This should be the webhook uri.
+    webhook-uri: You should put that value on your own.
     # This section should contains configuration of embed message sent by rose-uptimer. (Discord)
     embed-config:
     {
@@ -51,5 +49,11 @@
       # This is the avatar displayed in the embed's footer.
       footer-avatar-url: https://cdn.discordapp.com/avatars/316953327936077827/a_500ebb80d3161a98aabdf4dda4931bfc.gif
     }
+  }
+  # This section should contain configuration for slack notifier.
+  slack-notifier-config:
+  {
+    # This should be the webhook uri.
+    webhook-uri: You should put that value on your own.
   }
 }
