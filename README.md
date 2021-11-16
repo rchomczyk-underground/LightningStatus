@@ -11,4 +11,4 @@ You can find example of configuration in [config.example.hjson](./config.example
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## Licensing
-[rose-uptimer](https://github.com/shitzuu/rs-uptimer) plugin is released under [MIT license](./LICENSE) conditions.
+[rs-uptimer](https://github.com/shitzuu/rs-uptimer) plugin is released under [MIT license](./LICENSE) conditions.
