@@ -1,6 +1,6 @@
 # rs-uptimer
-![license badge](https://img.shields.io/github/license/shitzuu/rs-uptimer)
-![version badge](https://img.shields.io/badge/version-1.2.0-green)
+![license badge - image](https://img.shields.io/github/license/shitzuu/rs-uptimer)
+![version badge - image](https://img.shields.io/badge/version-1.2.0-green)
 
 Simple and lightweight application which is checking status of your web services and send a notification if it is down.
 
