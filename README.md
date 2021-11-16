@@ -1,5 +1,5 @@
-# rose-uptimer
-![license badge](https://img.shields.io/github/license/RoseSapphire/rose-uptimer)
+# rs-uptimer
+![license badge](https://img.shields.io/github/license/shitzuu/rs-uptimer)
 ![version badge](https://img.shields.io/badge/version-1.2.0-green)
 
 Simple and lightweight application which is checking status of your web services and send a notification if it is down.
@@ -11,4 +11,4 @@ You can find example of configuration in [config.example.hjson](./config.example
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## Licensing
-[rose-uptimer](https://github.com/RoseSapphire/rose-uptimer) plugin is released under [MIT license](./LICENSE) conditions.
+[rose-uptimer](https://github.com/shitzuu/rs-uptimer) plugin is released under [MIT license](./LICENSE) conditions.
