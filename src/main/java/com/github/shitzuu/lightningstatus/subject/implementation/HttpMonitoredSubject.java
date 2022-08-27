@@ -1,7 +1,7 @@
 package com.github.shitzuu.lightningstatus.subject.implementation;
 
 import com.github.shitzuu.lightningstatus.subject.MonitoredSubject;
-import com.github.shitzuu.lightningstatus.watcher.implementation.HttpCrawlerMethod;
+import com.github.shitzuu.lightningstatus.crawler.implementation.HttpCrawlerMethod;
 
 import java.util.Map;
 

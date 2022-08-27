@@ -1,4 +1,4 @@
-package com.github.shitzuu.lightningstatus.watcher;
+package com.github.shitzuu.lightningstatus.crawler;
 
 import com.github.shitzuu.lightningstatus.subject.MonitoredSubject;
 

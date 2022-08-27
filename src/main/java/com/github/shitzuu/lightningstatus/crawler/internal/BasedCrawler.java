@@ -1,9 +1,9 @@
-package com.github.shitzuu.lightningstatus.watcher.internal;
+package com.github.shitzuu.lightningstatus.crawler.internal;
 
 import com.github.shitzuu.lightningstatus.client.LightningHttpClient;
 import com.github.shitzuu.lightningstatus.notifier.NotifierController;
 import com.github.shitzuu.lightningstatus.subject.MonitoredSubject;
-import com.github.shitzuu.lightningstatus.watcher.Crawler;
+import com.github.shitzuu.lightningstatus.crawler.Crawler;
 
 import java.util.Collections;
 import java.util.Set;

@@ -2,7 +2,7 @@ package com.github.shitzuu.lightningstatus.config;
 
 import com.github.shitzuu.lightningstatus.subject.implementation.HttpMonitoredSubject;
 import com.github.shitzuu.lightningstatus.subject.implementation.PingMonitoredSubject;
-import com.github.shitzuu.lightningstatus.watcher.implementation.HttpCrawlerMethod;
+import com.github.shitzuu.lightningstatus.crawler.implementation.HttpCrawlerMethod;
 import eu.okaeri.configs.OkaeriConfig;
 import eu.okaeri.configs.annotation.Comment;
 import eu.okaeri.configs.annotation.NameModifier;

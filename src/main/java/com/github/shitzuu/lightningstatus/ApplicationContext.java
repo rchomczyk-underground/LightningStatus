@@ -10,9 +10,9 @@ import com.github.shitzuu.lightningstatus.notifier.implementation.NotifierDiscor
 import com.github.shitzuu.lightningstatus.notifier.implementation.NotifierDiscordConfig;
 import com.github.shitzuu.lightningstatus.notifier.implementation.NotifierSlack;
 import com.github.shitzuu.lightningstatus.notifier.implementation.NotifierSlackConfig;
-import com.github.shitzuu.lightningstatus.watcher.implementation.HttpCrawler;
-import com.github.shitzuu.lightningstatus.watcher.implementation.PingCrawler;
-import com.github.shitzuu.lightningstatus.watcher.internal.BasedCrawler;
+import com.github.shitzuu.lightningstatus.crawler.implementation.HttpCrawler;
+import com.github.shitzuu.lightningstatus.crawler.implementation.PingCrawler;
+import com.github.shitzuu.lightningstatus.crawler.internal.BasedCrawler;
 import eu.okaeri.configs.serdes.commons.SerdesCommons;
 
 import java.io.File;

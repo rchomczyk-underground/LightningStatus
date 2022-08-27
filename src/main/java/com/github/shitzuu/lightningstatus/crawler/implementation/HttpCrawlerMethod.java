@@ -1,4 +1,4 @@
-package com.github.shitzuu.lightningstatus.watcher.implementation;
+package com.github.shitzuu.lightningstatus.crawler.implementation;
 
 public enum HttpCrawlerMethod {
 
